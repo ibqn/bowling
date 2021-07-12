@@ -31,7 +31,7 @@ public class GameController {
         System.out.print("Please enter a roll for frame " + currentFrame + " between '0' and '" + numberOfAvailablePins
                 + "' or 'q' to quit: ");
 
-        String input = scanner.nextLine();
+        String input = requestUserInput();
 
         switch (input) {
             case "q":
@@ -47,6 +47,10 @@ public class GameController {
                     System.out.println("Invalid input. Entered: '" + input + "'");
                 }
         }
+    }
+
+    String requestUserInput() {
+        return scanner.nextLine();
     }
 
     public void showGameProgress() {

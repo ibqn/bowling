@@ -39,4 +39,45 @@ public class BowlingGameTest {
         Assertions.assertEquals(300, game.getScore());
     }
 
+    @Test
+    @DisplayName("should handle exemplary game correctly")
+    public void handleExemplaryGameCorrectly() throws BowlingGameException {
+        runExemplaryGame();
+
+        Assertions.assertEquals(true, game.isGameComplete());
+
+        Assertions.assertEquals(133, game.getScore());
+    }
+
+    private void runExemplaryGame() throws BowlingGameException {
+        game.addRoll(1);
+        game.addRoll(4);
+
+        game.addRoll(4);
+        game.addRoll(5);
+
+        game.addRoll(6);
+        game.addRoll(4);
+
+        game.addRoll(5);
+        game.addRoll(5);
+
+        game.addRoll(10);
+
+        game.addRoll(0);
+        game.addRoll(1);
+
+        game.addRoll(7);
+        game.addRoll(3);
+
+        game.addRoll(6);
+        game.addRoll(4);
+
+        game.addRoll(10);
+
+        game.addRoll(2);
+        game.addRoll(8);
+        game.addRoll(6);
+    }
+
 }
