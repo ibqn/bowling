@@ -70,6 +70,7 @@ public class GameController {
 
     private void showRollsInFrames(List<BowlingFrame> frames) {
         System.out.print("| ");
+        int frameCount = 0;
         for (BowlingFrame frame : frames) {
             List<BowlingRoll> rolls = frame.getRolls();
 
@@ -95,28 +96,56 @@ public class GameController {
             String formattedFrameRolls = frameRolls.toString();
 
             if (frame.isComplete()) {
-                formattedFrameRolls = String.format("%4s", formattedFrameRolls);
+                formattedFrameRolls = appendLeftPadding(formattedFrameRolls, 4);
             } else {
-                formattedFrameRolls = String.format("%-4s", formattedFrameRolls);
+                formattedFrameRolls = appendRightPadding(formattedFrameRolls, 4);
             }
 
             if (frame.isLastFrame()) {
-                formattedFrameRolls = String.format("%-6s", formattedFrameRolls);
+                formattedFrameRolls = appendRightPadding(formattedFrameRolls, 6);
             }
 
             System.out.print(formattedFrameRolls);
             System.out.print("| ");
+
+            frameCount++;
         }
 
-        System.out.println();
+        appendRightBorderIfNeeded(frameCount);
 
         showSeparator();
+    }
+
+    private String appendLeftPadding(String string, int padding) {
+        String format = String.format("%%%ds", padding);
+        return String.format(format, string);
+    }
+
+    private String appendRightPadding(String string, int padding) {
+        String format = String.format("%%-%ds", padding);
+        return String.format(format, string);
+    }
+
+    private void appendRightBorderIfNeeded(int frameCount) {
+        if (frameCount >= BowlingGame.NUMBER_OF_FRAMES) {
+            System.out.println();
+            return;
+        }
+
+        var paddingWithBorder = new StringBuilder();
+        for (int frame = frameCount; frame < BowlingGame.NUMBER_OF_FRAMES; frame++) {
+            paddingWithBorder.append(appendLeftPadding("", 6));
+        }
+        paddingWithBorder.append("|");
+
+        System.out.println(paddingWithBorder.toString());
     }
 
     private void showScoreInFrames(List<BowlingFrame> frames) {
         System.out.print("| ");
         boolean haveScore = true;
         int totalScore = 0;
+        int frameCount = 0;
         for (BowlingFrame frame : frames) {
             if (haveScore && frame.haveScore()) {
                 try {
@@ -135,9 +164,10 @@ public class GameController {
                 System.out.print("  ");
             }
             System.out.print("| ");
+            frameCount++;
         }
 
-        System.out.println();
+        appendRightBorderIfNeeded(frameCount);
 
         showSeparator();
     }

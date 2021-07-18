@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BowlingGame {
-    private final int NUMBER_OF_FRAMES = 10;
+    public static final int NUMBER_OF_FRAMES = 10;
     private ArrayList<BowlingFrame> frames;
     private int currentFrameIndex;
 
