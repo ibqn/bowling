@@ -38,7 +38,7 @@ public class GameController {
 
         switch (input) {
             case "q":
-                System.out.println("Buy!");
+                System.out.println("Bye!");
                 System.exit(0);
             default:
                 try {
