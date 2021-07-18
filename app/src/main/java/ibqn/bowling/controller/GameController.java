@@ -59,8 +59,14 @@ public class GameController {
         System.out.println("|  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  10   |");
         System.out.println("+-----+-----+-----+-----+-----+-----+-----+-----+-----+-------+");
 
-        List<BowlingFrame> frames = this.game.getFrames();
+        List<BowlingFrame> frames = game.getFrames();
 
+        showRollsInFrames(frames);
+
+        showScoreInFrames(frames);
+    }
+
+    private void showRollsInFrames(List<BowlingFrame> frames) {
         System.out.print("| ");
         for (BowlingFrame frame : frames) {
             List<BowlingRoll> rolls = frame.getRolls();
@@ -80,7 +86,7 @@ public class GameController {
                 if (frame.isSpare() && rollCount == 1) {
                     rollScore = "/";
                 }
-                System.out.printf(rollScore);
+                System.out.print(rollScore);
                 rollCount++;
                 System.out.print(" ");
 
@@ -98,6 +104,9 @@ public class GameController {
         System.out.println();
         System.out.println("+-------------------------------------------------------------+");
 
+    }
+
+    private void showScoreInFrames(List<BowlingFrame> frames) {
         System.out.print("| ");
         boolean haveScore = true;
         int totalScore = 0;
