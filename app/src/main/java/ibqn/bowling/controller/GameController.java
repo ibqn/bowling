@@ -64,6 +64,8 @@ public class GameController {
         showRollsInFrames(frames);
 
         showScoreInFrames(frames);
+
+        System.out.println();
     }
 
     private void showRollsInFrames(List<BowlingFrame> frames) {
@@ -71,9 +73,7 @@ public class GameController {
         for (BowlingFrame frame : frames) {
             List<BowlingRoll> rolls = frame.getRolls();
 
-            if (rolls.size() == 1 && frame.isComplete()) {
-                System.out.print("  ");
-            }
+            var frameRolls = new StringBuilder();
 
             int rollCount = 0;
             for (BowlingRoll roll : rolls) {
@@ -86,24 +86,31 @@ public class GameController {
                 if (frame.isSpare() && rollCount == 1) {
                     rollScore = "/";
                 }
-                System.out.print(rollScore);
-                rollCount++;
-                System.out.print(" ");
 
+                rollCount++;
+                frameRolls.append(rollScore);
+                frameRolls.append(" ");
             }
+
+            String formattedFrameRolls = frameRolls.toString();
 
             if (frame.isComplete()) {
-                if (frame.isLastFrame() && rolls.size() == 2) {
-                    System.out.print("  ");
-                }
-
-                System.out.print("| ");
+                formattedFrameRolls = String.format("%4s", formattedFrameRolls);
+            } else {
+                formattedFrameRolls = String.format("%-4s", formattedFrameRolls);
             }
 
-        }
-        System.out.println();
-        System.out.println("+-------------------------------------------------------------+");
+            if (frame.isLastFrame()) {
+                formattedFrameRolls = String.format("%-6s", formattedFrameRolls);
+            }
 
+            System.out.print(formattedFrameRolls);
+            System.out.print("| ");
+        }
+
+        System.out.println();
+
+        showSeparator();
     }
 
     private void showScoreInFrames(List<BowlingFrame> frames) {
@@ -131,8 +138,12 @@ public class GameController {
         }
 
         System.out.println();
+
+        showSeparator();
+    }
+
+    private void showSeparator() {
         System.out.println("+-------------------------------------------------------------+");
-        System.out.println();
     }
 
 }
