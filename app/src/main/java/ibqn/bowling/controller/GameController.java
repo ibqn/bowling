@@ -9,6 +9,9 @@ import ibqn.bowling.game.BowlingGameException;
 import ibqn.bowling.game.BowlingRoll;
 
 public class GameController {
+    private final int FRAME_WIDTH = 4;
+    private final int FULL_FRAME_WIDTH = 6;
+    private final int LAST_FRAME_WIDTH = 6;
 
     private Scanner scanner;
     private BowlingGame game;
@@ -96,13 +99,13 @@ public class GameController {
             String formattedFrameRolls = frameRolls.toString();
 
             if (frame.isComplete()) {
-                formattedFrameRolls = appendLeftPadding(formattedFrameRolls, 4);
+                formattedFrameRolls = appendLeftPadding(formattedFrameRolls, FRAME_WIDTH);
             } else {
-                formattedFrameRolls = appendRightPadding(formattedFrameRolls, 4);
+                formattedFrameRolls = appendRightPadding(formattedFrameRolls, FRAME_WIDTH);
             }
 
             if (frame.isLastFrame()) {
-                formattedFrameRolls = appendRightPadding(formattedFrameRolls, 6);
+                formattedFrameRolls = appendRightPadding(formattedFrameRolls, LAST_FRAME_WIDTH);
             }
 
             System.out.print(formattedFrameRolls);
@@ -134,7 +137,7 @@ public class GameController {
 
         var paddingWithBorder = new StringBuilder();
         for (int frame = frameCount; frame < BowlingGame.NUMBER_OF_FRAMES; frame++) {
-            paddingWithBorder.append(appendLeftPadding("", 6));
+            paddingWithBorder.append(appendLeftPadding("", FULL_FRAME_WIDTH));
         }
         paddingWithBorder.append("|");
 
@@ -147,23 +150,26 @@ public class GameController {
         int totalScore = 0;
         int frameCount = 0;
         for (BowlingFrame frame : frames) {
+            String frameScore = "";
             if (haveScore && frame.haveScore()) {
                 try {
                     totalScore += frame.getScore();
-                    String frameScore = String.format("%-4d", totalScore);
-
-                    System.out.print(frameScore);
+                    frameScore = String.format("%d", totalScore);
                 } catch (BowlingGameException ignored) {
                 }
             } else {
                 haveScore = false;
-                System.out.print("    ");
             }
 
+            String formattedFrameScore = appendRightPadding(frameScore, FRAME_WIDTH);
+
             if (frame.isLastFrame()) {
-                System.out.print("  ");
+                formattedFrameScore = appendRightPadding(frameScore, LAST_FRAME_WIDTH);
             }
+
+            System.out.print(formattedFrameScore);
             System.out.print("| ");
+
             frameCount++;
         }
 
