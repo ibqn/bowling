@@ -42,11 +42,7 @@ public class BowlingFrame {
     }
 
     private int getNumberOfPins() {
-        int currentNumberOfPins = 0;
-        for (BowlingRoll roll : rolls) {
-            currentNumberOfPins += roll.getNumberOfPins();
-        }
-        return currentNumberOfPins;
+        return rolls.stream().map(roll -> roll.getNumberOfPins()).reduce(0, Integer::sum);
     }
 
     public int getNumberOfAvailablePins() {
