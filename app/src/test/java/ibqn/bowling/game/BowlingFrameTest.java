@@ -208,7 +208,7 @@ class BowlingFrameTest {
             Assertions.assertEquals(3, rolls.size());
 
             Assertions.assertEquals(true, frame.isStrike());
-            Assertions.assertNotEquals(true, frame.isSpare());
+            Assertions.assertEquals(true, frame.isSpare());
 
             Assertions.assertEquals(true, frame.isComplete());
         }

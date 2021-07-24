@@ -73,13 +73,14 @@ public class GameController {
 
     private void showRollsInFrames(List<BowlingFrame> frames) {
         System.out.print("| ");
-        int frameCount = 0;
         for (BowlingFrame frame : frames) {
             List<BowlingRoll> rolls = frame.getRolls();
 
             var frameRolls = new StringBuilder();
 
-            int rollCount = 0;
+            boolean lastRollIsStrike = true;
+            boolean hadSpare = false;
+
             for (BowlingRoll roll : rolls) {
                 String rollScore = String.format("%d", roll.getNumberOfPins());
 
@@ -87,11 +88,13 @@ public class GameController {
                     rollScore = "X";
                 }
 
-                if (frame.isSpare() && rollCount == 1) {
+                if (frame.isSpare() && !hadSpare && !lastRollIsStrike) {
                     rollScore = "/";
+                    hadSpare = true;
                 }
 
-                rollCount++;
+                lastRollIsStrike = roll.isStrike();
+
                 frameRolls.append(rollScore);
                 frameRolls.append(" ");
             }
@@ -111,10 +114,9 @@ public class GameController {
             System.out.print(formattedFrameRolls);
             System.out.print("| ");
 
-            frameCount++;
         }
 
-        appendRightBorderIfNeeded(frameCount);
+        appendRightBorderIfNeeded(frames.size());
 
         showSeparator();
     }
@@ -148,7 +150,6 @@ public class GameController {
         System.out.print("| ");
         boolean haveScore = true;
         int totalScore = 0;
-        int frameCount = 0;
         for (BowlingFrame frame : frames) {
             String frameScore = "";
             if (haveScore && frame.haveScore()) {
@@ -170,10 +171,9 @@ public class GameController {
             System.out.print(formattedFrameScore);
             System.out.print("| ");
 
-            frameCount++;
         }
 
-        appendRightBorderIfNeeded(frameCount);
+        appendRightBorderIfNeeded(frames.size());
 
         showSeparator();
     }

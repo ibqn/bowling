@@ -30,6 +30,7 @@ public class BowlingRollTest {
 
         BowlingRoll roll = new BowlingRoll(validPinsNumber);
         Assertions.assertEquals(validPinsNumber, roll.getNumberOfPins());
+        Assertions.assertNotEquals(true, roll.isStrike());
     }
 
     @Test
@@ -48,6 +49,7 @@ public class BowlingRollTest {
 
         BowlingRoll roll = new BowlingRoll(maximalPinsNumber);
         Assertions.assertEquals(maximalPinsNumber, roll.getNumberOfPins());
+        Assertions.assertEquals(true, roll.isStrike());
     }
 
 }

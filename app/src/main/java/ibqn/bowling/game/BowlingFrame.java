@@ -2,6 +2,7 @@ package ibqn.bowling.game;
 
 import java.util.ArrayList;
 import java.util.List;
+// import java.util.stream.IntStream;
 
 public class BowlingFrame {
 
@@ -28,14 +29,21 @@ public class BowlingFrame {
         boolean strikeInThirdRoll = rolls.size() == 3 && rolls.get(2).isStrike();
 
         return strikeInFirstRoll || strikeInThirdRoll;
+
+        // return IntStream.range(0, rolls.size()).filter(rollIndex -> rollIndex != 1)
+        // .mapToObj(rollIndex -> rolls.get(rollIndex).isStrike()).anyMatch(strike ->
+        // strike);
     }
 
     public boolean isSpare() {
-        if (rolls.size() >= 2) {
-            boolean firstRollIsNotStrike = !rolls.get(0).isStrike();
-            boolean clearedAllPinsInTwoRolls = rolls.get(0).getNumberOfPins()
-                    + rolls.get(1).getNumberOfPins() == BowlingRoll.MAX_NUMBER_OF_PINS;
-            return firstRollIsNotStrike && clearedAllPinsInTwoRolls;
+        for (int rollIndex = 0; rollIndex < rolls.size() - 1; rollIndex++) {
+            boolean firstRollIsNotStrike = !rolls.get(rollIndex).isStrike();
+            boolean clearedAllPinsInTwoRolls = rolls.stream().skip(rollIndex).limit(2)
+                    .map(roll -> roll.getNumberOfPins()).reduce(0, Integer::sum) == BowlingRoll.MAX_NUMBER_OF_PINS;
+
+            if (firstRollIsNotStrike && clearedAllPinsInTwoRolls) {
+                return true;
+            }
         }
 
         return false;
